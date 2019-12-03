@@ -1,25 +1,31 @@
 class D01 {
 
     int fuel(List<String> masses) {
-		masses.inject(0){fuel, it -> fuel + calculateFuel(it.toInteger()) }
+        masses*.toInteger().inject(0) { total, arg -> total += calcFuel(arg) }
     }
 
-    private int calculateFuel(int it) {
-       def fuel = it.intdiv(3) - 2
-        fuel<0?0:fuel
+    private int calcFuel(mass) {
+        int division = mass.intdiv(3)
+        division < 2 ? 0 : division - 2
     }
 
-    def extraFuel(List<String> masses) {
-        int result = 0
+    def cal(int m, def accu = 0) {
+        if (m < 3)
+            return accu
+        cal.trampoline(calcFuel(f), m + accu)
+    }
 
-            for (int mass in masses*.toInteger()) {
-                def fuelForMass = calculateFuel(mass)
-                println(fuelForMass)
-                def fuelForFuel
-                fuelForFuel = { int n -> n<1?n: fuelForFuel(calculateFuel(n))}.memoize()
-                result = result + fuelForFuel(fuelForMass)
-            }
+    int calculateExtrafuel(int mass) {
+        int fuelForMass = calcFuel(mass)
 
-        result
+        def cal
+        cal = { int m, def accu = 0 ->
+            if (m < 1)
+                return accu
+            cal.trampoline(calcFuel(m), m + accu)
+        }
+        cal = cal.trampoline()
+
+        cal(fuelForMass)
     }
 }
