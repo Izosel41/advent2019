@@ -15,13 +15,16 @@ class D01Test extends GroovyTestCase {
 	}
 
 	void testExtraFuel(){
-		assert 2 == day.extraFuel(["14"])
-		assert 966 == day.extraFuel(["1969"])
-		assert 50346 == day.extraFuel(["100756"])
+		assert 2 == day.calculateExtrafuel(14)
+		assert 966 == day.calculateExtrafuel(1969)
+		assert 50346 == day.calculateExtrafuel(100756)
 	}
 
 	void testSecond() {
 		def input = Util.extractLines("1.txt")
-		println("response is " + day.extraFuel(input))
+		println input*.toInteger().inject(0) { total, arg ->
+			def fuelForMass = day.calcFuel(arg)
+			def fuelForFuel = day.calculateExtrafuel(fuelForMass)
+			total +=  (fuelForMass + fuelForFuel) }
 	}
 }
