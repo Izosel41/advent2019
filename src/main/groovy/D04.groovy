@@ -25,9 +25,9 @@ class D04 {
 
     boolean adjacent2(char[] chars) {
         boolean res = false
-        for(int i= 0; i<chars.size(); i++){
-            if((i<chars.size()-1)
-                    if(chars[i]==chars[i+1]) && (i<chars.size()-2 && chars[i] != chars[i+2]) && (i>0 && chars[i-1] != chars[i]))
+        chars = 'a' + chars + 'a'
+        for (int i = 1; i < chars.size() - 2; i++) {
+            if ((chars[i] == chars[i + 1]) && (chars[i] != chars[i + 2]) && (chars[i - 1] != chars[i]))
                 res = true
         }
         res
