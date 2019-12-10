@@ -11,6 +11,10 @@ class D06Test extends GroovyTestCase {
         assert a.next[0].next == null
     }
 
+    void testOrbits() {
+        day.createOrbits(Util.extractLines("61.txt"))
+    }
+
     void testFirst() {
         List passwords = new ArrayList()
         def range = 246515..739105

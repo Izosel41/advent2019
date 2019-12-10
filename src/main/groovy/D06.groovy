@@ -6,7 +6,7 @@ class D06 {
         def orb = cmd.tokenize(")")
         Planet a = new Planet(orb[0])
         Planet b = new Planet(orb[1])
-        a.isOrbitedBy(b)
+        b.orbits(a)
         a
     }
 
@@ -21,20 +21,15 @@ class D06 {
         List<String> names = Collections.singletonList("COM")
         Planet root = new Planet("")
 
-        while (planets.size() > 0) {
-            for (String name : names) {
-                List<Planet> pls = planets.stream().filter({ it.name == name }).collect(Collectors.toList())
-                names.remove()
-                for (Planet p : pls) {
-                    planets.remove(p)
-                    root.isOrbitedBy(p)
-                    if (p.next != null)
-                        names.add(p.next.name)
-                }
+        for (String name : names) {
+            List<Planet> pls = planets.stream().filter({ it.parent.name == name }).collect(Collectors.toList())
+            names.remove()
+            for (Planet p : pls) {
+                planets.remove(p)
+                p.orbits(root)
+                names.add(p.name)
             }
-
         }
-
     }
 }
 
@@ -47,7 +42,7 @@ public class Planet {
     }
 
     void orbits(Planet p) {
-        this.parent(p)
+        this.parent = p
     }
 
     boolean equals(o) {
