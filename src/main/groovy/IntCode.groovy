@@ -32,14 +32,14 @@ class IntCode {
                     if(a != 0)
                         pos = getValue(program, pos + 2, instruction.modes[1])
                     else
-                        pos = pos + 2
+                        pos = pos + 3
                     break
                 case 6:
                     def a = getValue(program, pos + 1, instruction.modes[0])
                     if(a == 0)
                         pos = getValue(program, pos + 2, instruction.modes[1])
                     else
-                        pos = pos + 2
+                        pos = pos + 3
                     break
                 case 7:
                     def a = getValue(program, pos + 1, instruction.modes[0])
@@ -109,13 +109,22 @@ public class Instruction{
                 this.operation = Integer.parseInt(instruction.substring(instruction.length()-2, instruction.length()))
                 char[] a = instruction.substring(0,instruction.length()-2).reverse().chars
                 List<Integer> m = new ArrayList<>()
-                for(char c : a){
+                for (char c : a) {
                     m.add(Character.getNumericValue(c))
                 }
-                if(m.size() == 1)
+                if (m.size() == 1)
                     m.add(0)
                 this.modes = m
                 break
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return "Instruction{" +
+                "operation=" + operation +
+                ", modes=" + Arrays.toString(modes) +
+                '}';
     }
 }
