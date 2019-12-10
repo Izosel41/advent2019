@@ -1,4 +1,5 @@
 class D02 {
+
     int intcode( List<Integer> registry) {
         int cur = 0
         while (99 != registry[cur]) {
@@ -20,6 +21,4 @@ class D02 {
         }
         registry[0]
     }
-
-
 }
