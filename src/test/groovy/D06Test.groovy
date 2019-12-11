@@ -1,11 +1,18 @@
+import java.util.stream.Collectors
+
 class D06Test extends GroovyTestCase {
 
     D06 day = new D06()
 
     void testOrbits() {
-        def planets = day.createOrbits(Util.extractLines("61.txt"))
+        List<Planet> planets = day.createOrbits(Util.extractLines("61.txt"))
 
+        assert 3 == day.calculateOrbits(planets, planets.find({ it.name == "D" }))
+        assert 7 == day.calculateOrbits(planets, planets.find({ it.name == "L" }))
 
+        assert 42 == planets.stream()
+                .mapToInt({ e -> day.calculateOrbits(planets, e) })
+                .sum()
 /*
         D directly orbits C and indirectly orbits B and COM, a total of 3 orbits.
         L directly orbits K and indirectly orbits J, E, D, C, B, and COM, a total of 7 orbits.
@@ -15,10 +22,10 @@ class D06Test extends GroovyTestCase {
     }
 
     void testFirst() {
-        List passwords = new ArrayList()
-        def range = 246515..739105
-        range.forEach({ it -> day.findPassword(it) ? passwords.add(it) : null })
-        println passwords.size()
+        List<Planet> planets = day.createOrbits(Util.extractLines("6.txt"))
+        println planets.stream()
+                .mapToInt({ e -> day.calculateOrbits(planets, e) })
+                .sum()
     }
 
     void testAdjacent2() {
