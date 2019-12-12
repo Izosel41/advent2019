@@ -28,6 +28,16 @@ class D06 {
         }
         orbit
     }
+
+    List<String> computePath(List<Planet> planets, Planet p) {
+        List path = new ArrayList<String>()
+        while (p != null && p.parent != null) {
+            p = planets.find({ it == p.parent })
+            if (p != null)
+                path.add(p.name)
+        }
+        path
+    }
 }
 
 public class Planet {

@@ -13,12 +13,6 @@ class D06Test extends GroovyTestCase {
         assert 42 == planets.stream()
                 .mapToInt({ e -> day.calculateOrbits(planets, e) })
                 .sum()
-/*
-        D directly orbits C and indirectly orbits B and COM, a total of 3 orbits.
-        L directly orbits K and indirectly orbits J, E, D, C, B, and COM, a total of 7 orbits.
-        COM orbits nothing.
-*/
-
     }
 
     void testFirst() {
@@ -28,18 +22,44 @@ class D06Test extends GroovyTestCase {
                 .sum()
     }
 
-    void testAdjacent2() {
-        assert true == day.adjacent2(112233.toInteger().toString().chars)
-        assert false == day.adjacent2(123444.toInteger().toString().chars)
-        assert true == day.adjacent2(111122.toInteger().toString().chars)
-        assert false == day.adjacent2(246667.toInteger().toString().chars)
+    void testComputePath() {
+        List<Planet> planets = day.createOrbits(Util.extractLines("62.txt"))
+
+        List<String> youToCom = day.computePath(planets, planets.find({ it.name == "YOU" }))
+        List<String> sanToCom = day.computePath(planets, planets.find({ it.name == "SAN" }))
+        String common = null
+        int i = 0
+        while (common == null) {
+            def planet = youToCom[i]
+            if (sanToCom.contains(planet))
+                common = planet
+            else
+                i++
+        }
+        println common
+        def a = i
+        def b = sanToCom.findIndexOf { it == common }
+
+        assert 4 == a + b
     }
 
     void testSecond() {
-        List passwords = new ArrayList()
-        def range = 246515..739105
-        range.forEach({ it -> day.findPassword2(it) ? passwords.add(it) : null })
-        passwords.stream().forEach({ println it })
-        println passwords.size()
+        List<Planet> planets = day.createOrbits(Util.extractLines("6.txt"))
+
+        List<String> youToCom = day.computePath(planets, planets.find({ it.name == "YOU" }))
+        List<String> sanToCom = day.computePath(planets, planets.find({ it.name == "SAN" }))
+        String common = null
+        int i = 0
+        while (common == null) {
+            def planet = youToCom[i]
+            if (sanToCom.contains(planet))
+                common = planet
+            else
+                i++
+        }
+        def a = i
+        def b = sanToCom.findIndexOf { it == common }
+
+        println a + b
     }
 }
