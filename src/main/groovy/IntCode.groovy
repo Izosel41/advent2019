@@ -7,9 +7,9 @@ class IntCode {
         int pos = 0
 
         while (99 != program[pos]) {
-            println program
+         //   println program
             Instruction instruction = new Instruction(program[pos])
-            println "[" +pos +"] "+ instruction
+         //   println "[" +pos +"] "+ instruction
 
             switch (instruction.operation) {
                 case 1:
