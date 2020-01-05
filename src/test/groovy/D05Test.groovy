@@ -2,8 +2,8 @@ class D05Test extends GroovyTestCase {
 
     void testIntCode() {
         IntCode code = new IntCode()
-        assert 99 == code.run(Util.convertStringToIntArray("1002,4,3,4,33"))[4]
-        assert 99 == code.run(Util.convertStringToIntArray("1101,100,-1,4,0"))[4]
+        code.run(Util.convertStringToIntArray("1002,4,3,4,33"))
+        code.run(Util.convertStringToIntArray("1101,100,-1,4,0"))
 
         code.io.push(1)
         code.run(Util.convertStringToIntArray("3,0,4,0,99"))
@@ -22,27 +22,33 @@ class D05Test extends GroovyTestCase {
         IntCode code = new IntCode()
         code.io.push(8)
         code.run(Util.convertStringToIntArray("3,9,8,9,10,9,4,9,99,-1,8"))
-        assertEquals("test 1", 1, code.io.pop())
+        assertEquals(1, code.io.pop())
+        println "test 1"
 
         code.io.push(1)
         code.run(Util.convertStringToIntArray("3,9,8,9,10,9,4,9,99,-1,8"))
-        assertEquals("test 2", 0, code.io.pop())
+        assertEquals(0, code.io.pop())
+        println "test 2"
 
         code.io.push(1)
         code.run(Util.convertStringToIntArray("3,9,7,9,10,9,4,9,99,-1,8"))
-        assertEquals("test 3", 1, code.io.pop())
+        assertEquals(1, code.io.pop())
+        println "test 3"
 
         code.io.push(9)
         code.run(Util.convertStringToIntArray("3,9,7,9,10,9,4,9,99,-1,8"))
-        assertEquals("test 4", 0, code.io.pop())
+        assertEquals(0, code.io.pop())
+        println "test 4"
 
         code.io.push(0)
         code.run(Util.convertStringToIntArray("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"))
-        assertEquals("test 5", 0, code.io.pop())
+        assertEquals(0, code.io.pop())
+        println "test 5"
 
         code.io.push(9)
         code.run(Util.convertStringToIntArray("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"))
-        assertEquals("test 6", 1, code.io.pop())
+        assertEquals(1, code.io.pop())
+        println "test 6"
     }
 
     void testImmediateMode() {

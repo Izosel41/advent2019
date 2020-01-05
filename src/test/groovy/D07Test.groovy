@@ -49,6 +49,14 @@ class D07Test extends GroovyTestCase {
     }
 
     void testSecond() {
+        def phases = [9, 8, 7, 6, 5]
+        def result = []
+        phases.eachPermutation {
+            result << it
+        }
 
+        def program = Util.convertStringToIntArray(Util.extractLines("7.txt").get(0))
+        def inputSignal = 0
+        println result.stream().mapToInt({ it -> day.feedbackLoop(it, inputSignal, program) }).max().getAsInt()
     }
 }

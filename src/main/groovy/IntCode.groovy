@@ -2,14 +2,14 @@ class IntCode {
 
     Queue<Integer> io = new LinkedList<Integer>()
 
-    List<Integer> run(final List<Integer> programOriginal) {
+    void run(final Integer[] programOriginal) {
         def program = programOriginal.clone()
         int pos = 0
 
         while (99 != program[pos]) {
-         //   println program
+            //   println program
             Instruction instruction = new Instruction(program[pos])
-         //   println "[" +pos +"] "+ instruction
+            println "[" + pos + "] " + instruction
 
             switch (instruction.operation) {
                 case 1:
@@ -19,7 +19,7 @@ class IntCode {
                     pos = multiply(program, pos, instruction.modes)
                     break
                 case 3:
-                    pos = input(program, pos)
+                    pos = input(program, pos, instruction.modes)
                     break
                 case 4:
                     pos = output(program, pos, instruction.modes)
@@ -37,11 +37,9 @@ class IntCode {
                     pos = equals(program, pos, instruction.modes)
                     break
                 case 99:
-                    return program
                     break
             }
         }
-        program
     }
 
     public int equals(program, int pos, int[] modes) {
@@ -65,7 +63,7 @@ class IntCode {
         pos = pos + 4
         pos
     }
-
+    // 6
     public int jumpIfFalse(program, int pos, int[] modes) {
         def a = getValue(program, pos + 1, modes[0])
         if (a == 0)
@@ -74,7 +72,7 @@ class IntCode {
             pos = pos + 3
         pos
     }
-
+    // 5
     public int jumpIfTrue(program, int pos, int[] modes) {
         def a = getValue(program, pos + 1, modes[0])
         if (a != 0)
@@ -83,7 +81,7 @@ class IntCode {
             pos = pos + 3
         pos
     }
-
+    //4
     public int output(program, int pos, int[] modes) {
         io.add(getValue(program, pos + 1, modes[0]))
         pos = pos + 2
@@ -91,8 +89,11 @@ class IntCode {
     }
 
     // 3
-    public int input(program, int pos) {
-        program[program[pos + 1]] = io.removeFirst()
+    public int input(program, int pos, int[] modes) {
+        if (modes[0] == 0)
+            program[program[pos + 1]] = io.removeFirst()
+        else
+            program[pos + 1] = io.removeFirst()
         pos = pos + 2
         pos
     }
@@ -128,36 +129,5 @@ class IntCode {
 
     Integer immediateMode(def registry, int cur){
         registry[cur]
-    }
-}
-
-public class Instruction{
-    int operation
-    int[] modes
-
-    Instruction(Integer ins) {
-        if(ins<10) {
-            this.operation = ins
-            this.modes = [0, 0]
-        }else{
-            def instruction = ins.toString()
-            this.operation = Integer.parseInt(instruction.substring(instruction.length()-2, instruction.length()))
-            char[] a = instruction.substring(0,instruction.length()-2).reverse().chars
-            List<Integer> m = new ArrayList<>()
-            for (char c : a) {
-                m.add(Character.getNumericValue(c))
-            }
-            if (m.size() == 1)
-                m.add(0)
-            this.modes = m
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Instruction{" +
-                "operation=" + operation +
-                ", modes=" + Arrays.toString(modes) +
-                '}';
     }
 }

@@ -4,8 +4,7 @@ class Util {
         ClassLoader.getSystemResource(nameFile).readLines()
     }
 
-    static List<Integer> convertStringToIntArray(String s) {
-        def registry = s.tokenize(",")*.toInteger()
-        registry
+    static Integer[] convertStringToIntArray(String s) {
+        s.tokenize(",")*.toInteger()
     }
 }
