@@ -21,27 +21,28 @@ class D08Test extends GroovyTestCase {
     void test1() {
         List<List<List<Integer>>> layers = day.createLayers(Util.extractLines("8.txt").get(0), 25, 6)
 
-        int min = layers
+        Long min = layers
                 .stream()
-                .mapToInt({
-                    e ->
-                        e.stream().mapToInt({ it ->
-                            it.stream()
-                                    .filter({ c -> c == 0 })
-                                    .count()
-                        })
-                }).min().getAsInt()
+                .mapToLong({
+                    layer ->
+                        layer.stream().mapToLong({
+                            pixels ->
+                                pixels.stream()
+                                        .filter({ pixel -> pixel == 0 })
+                                        .count()
+                        }).sum()
+                }).min().getAsLong()
 
-        List<String> layer = layers
+        List<Integer> layer = layers
                 .stream()
                 .filter({
                     it ->
                         it.stream()
-                                .find({ e ->
-                                    min == e.chars()
-                                            .asDoubleStream()
-                                            .filter({ c -> c == 0 })
-                                            .count()
+                                .find({
+                                    pixels ->
+                                        min == pixels.stream()
+                                                .filter({ pixel -> pixel == 0 })
+                                                .count()
                                 })
                 })
 
